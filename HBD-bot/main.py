@@ -25,15 +25,16 @@ df.drop(['Подразделение', 'Организация', 'Табельн
 df = df[(df['Дата рождения'].dt.strftime('%m-%d') >= today.strftime('%m-%d')) &
                    (df['Дата рождения'].dt.strftime('%m-%d') <= next_week.strftime('%m-%d'))]
 
-
+#выделил из даты день и месяц
 df['day'] = df['Дата рождения'].dt.day
 df['month'] = df['Дата рождения'].dt.month
 
+#отсортировал
 df = df.sort_values(['month', 'day'])
 
+#выделил полных лет
 df['Сегодня'] = today
 df['Сегодня'] = pd.to_datetime(df['Сегодня'], dayfirst=True)
-
 df['Полных лет'] = (( df['Сегодня'] - df['Дата рождения'] ) / np.timedelta64(1, 'Y')).apply(np.floor)  
 
 #удалил ненужные столбцы

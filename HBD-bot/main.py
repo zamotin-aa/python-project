@@ -22,9 +22,14 @@ df.drop(['Подразделение', 'Организация', 'Табельн
 
 #список сотрудников, у которых ДР сегодня или в следующую неделю
 
-filtered_data = df[(df['Дата рождения'].dt.strftime('%m-%d') >= today.strftime('%m-%d')) &
+df = df[(df['Дата рождения'].dt.strftime('%m-%d') >= today.strftime('%m-%d')) &
                    (df['Дата рождения'].dt.strftime('%m-%d') <= next_week.strftime('%m-%d'))]
 
 
-print(filtered_data)
+df['day'] = df['Дата рождения'].dt.day
+df['month'] = df['Дата рождения'].dt.month
+
+df = df.sort_values(['month', 'day'])
+
+print(df)
 

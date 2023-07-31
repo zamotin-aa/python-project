@@ -31,5 +31,13 @@ df['month'] = df['Дата рождения'].dt.month
 
 df = df.sort_values(['month', 'day'])
 
+df['Сегодня'] = today
+df['Сегодня'] = pd.to_datetime(df['Сегодня'], dayfirst=True)
+
+df['Полных лет'] = (( df['Сегодня'] - df['Дата рождения'] ) / np.timedelta64(1, 'Y')).apply(np.floor)  
+
+#удалил ненужные столбцы
+df.drop(['Сегодня', 'day', 'month'], axis= 1 , inplace= True )
+
 print(df)
 

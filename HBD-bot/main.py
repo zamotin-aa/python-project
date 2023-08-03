@@ -38,7 +38,12 @@ df['Сегодня'] = pd.to_datetime(df['Сегодня'], dayfirst=True)
 df['Полных лет'] = (( df['Сегодня'] - df['Дата рождения'] ) / np.timedelta64(1, 'Y')).apply(np.floor)  
 
 #удалил ненужные столбцы
-df.drop(['Сегодня', 'day', 'month'], axis= 1 , inplace= True )
+df.drop(['Сегодня', 'day', 'month', '№'], axis= 1 , inplace= True )
+
+#удалил дубликаты (один и тот же сотрудник работает в разных компаниях)
+df = df.drop_duplicates(subset=['Сотрудник'])
+
+df = df.reset_index(drop=True)
 
 print(df)
 
